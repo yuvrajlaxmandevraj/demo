@@ -114,15 +114,11 @@ function getOpenConTextIds()
 function getAllIds($array)
 {
     $ids = [];
-
-    // Loop through the array
     foreach ($array as $key => $value) {
-        // If the key is 'id', store the value
         if ($key === 'id') {
             $ids[] = $value;
         }
 
-        // If the value is an array, call the function recursively
         if (is_array($value)) {
             $ids = array_merge($ids, getAllIds($value));
         }
