@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('post', PostController::class);
+    // Route::resource('post-api', PostController::class);
 });
 Route::get('/token', [HomeController::class, 'token'])->name('token');
 

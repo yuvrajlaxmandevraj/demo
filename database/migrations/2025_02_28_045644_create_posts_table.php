@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('education_time')->nullable()->default(0)->comment('in second');
             $table->timestamps();
         });
     }

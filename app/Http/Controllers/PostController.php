@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -11,8 +12,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        dd('ss');
-        //
+        $records = Post::get();
+        return view('blog.index', compact('records'));
     }
 
     /**
@@ -20,7 +21,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('blog.form');
     }
 
     /**
@@ -28,7 +29,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $start = strtotime(date("Y-m-d H:i:s"));
+        $request->validate([
+            'title' => ['required', 'max:200'],
+            'description' => ['required', 'max:1000'],
+        ]);
+        $record = Post::create([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+        if ($record) {
+
+            // $seconds = strtotime('2009-10-05 18:11:33') - strtotime('2009-10-05 18:11:13'); //for reference only
+            $end = strtotime(date("Y-m-d H:i:s"));
+            $record->education_time = $start - $end;
+            $record->save();
+            return redirect()->route('post.index')->with('success', 'Record  saved successfully');
+        } else {
+            return redirect()->route('post.index')->with('error', 'Failed to save the record');
+        }
     }
 
     /**
